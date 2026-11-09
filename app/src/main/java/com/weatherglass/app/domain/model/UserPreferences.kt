@@ -49,5 +49,6 @@ data class UserPreferences(
     val theme: AppTheme = AppTheme.DARK,
     val animationsEnabled: Boolean = true,
     val selectedProviderId: String = "open_meteo",
+    val autoSyncEnabled: Boolean = true,
     val autoRefreshMinutes: Int = 30
 )

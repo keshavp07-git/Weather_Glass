@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.weatherglass.app.data.weather.openmeteo.OpenMeteoDtoParsingTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-09T13:39:07.394Z" hostname="DESKTOP-Q16HLEI" time="0.048">
+<testsuite name="com.weatherglass.app.data.weather.openmeteo.OpenMeteoDtoParsingTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-09T13:58:19.709Z" hostname="DESKTOP-Q16HLEI" time="0.047">
   <properties/>
-  <testcase name="testParseGeocodingJson" classname="com.weatherglass.app.data.weather.openmeteo.OpenMeteoDtoParsingTest" time="0.024"/>
+  <testcase name="testParseGeocodingJson" classname="com.weatherglass.app.data.weather.openmeteo.OpenMeteoDtoParsingTest" time="0.023"/>
   <testcase name="testParseAirQualityJson" classname="com.weatherglass.app.data.weather.openmeteo.OpenMeteoDtoParsingTest" time="0.006"/>
   <testcase name="testParseForecastJson" classname="com.weatherglass.app.data.weather.openmeteo.OpenMeteoDtoParsingTest" time="0.016"/>
   <system-out><![CDATA[]]></system-out>

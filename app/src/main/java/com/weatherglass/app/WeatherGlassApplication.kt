@@ -28,7 +28,15 @@ class WeatherGlassApplication : Application() {
         // Initialize Notification Channel for automatic weather alerts & forecasts
         com.weatherglass.app.core.notification.WeatherNotificationHelper.createNotificationChannel(this)
 
-        // Schedule periodic background refresh
-        com.weatherglass.app.core.work.WeatherRefreshWorker.schedule(this, 60)
+        // Dynamically maintain background auto-sync schedule based on user preferences
+        applicationScope.launch {
+            container.userPreferencesRepository.userPreferencesFlow.collect { prefs ->
+                com.weatherglass.app.core.work.WeatherRefreshWorker.schedule(
+                    context = this@WeatherGlassApplication,
+                    intervalMinutes = prefs.autoRefreshMinutes.toLong(),
+                    enabled = prefs.autoSyncEnabled
+                )
+            }
+        }
     }
 }

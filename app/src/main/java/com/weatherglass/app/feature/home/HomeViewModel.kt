@@ -115,11 +115,22 @@ class HomeViewModel(
 
     fun loadWeatherForCity(city: CityLocation, forceRefresh: Boolean = false) {
         viewModelScope.launch {
-            if (_uiState.value.weatherReports.containsKey(city.id) && !forceRefresh) {
+            val existing = _uiState.value.weatherReports[city.id]
+            val nowEpoch = System.currentTimeMillis() / 1000
+            val isStale = existing != null && (nowEpoch - existing.lastUpdatedEpochSeconds > 15 * 60)
+
+            if (existing != null && !forceRefresh && !isStale) {
                 return@launch
             }
 
-            _uiState.update { it.copy(isLoading = !it.weatherReports.containsKey(city.id), isRefreshing = forceRefresh) }
+            val isBackgroundRevalidation = existing != null && !forceRefresh
+
+            _uiState.update {
+                it.copy(
+                    isLoading = existing == null,
+                    isRefreshing = forceRefresh
+                )
+            }
 
             when (val result = weatherRepository.getWeather(city, forceRefresh = forceRefresh)) {
                 is AppResult.Success -> {

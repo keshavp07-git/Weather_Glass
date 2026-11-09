@@ -36,6 +36,7 @@ class UserPreferencesRepository(private val context: Context) {
         val THEME = stringPreferencesKey("app_theme")
         val ANIMATIONS_ENABLED = booleanPreferencesKey("animations_enabled")
         val SELECTED_PROVIDER = stringPreferencesKey("selected_provider")
+        val AUTO_SYNC_ENABLED = booleanPreferencesKey("auto_sync_enabled")
         val AUTO_REFRESH_MINUTES = intPreferencesKey("auto_refresh_minutes")
         val LAST_SELECTED_CITY_ID = stringPreferencesKey("last_selected_city_id")
     }
@@ -79,6 +80,7 @@ class UserPreferencesRepository(private val context: Context) {
 
             val animationsEnabled = preferences[PreferencesKeys.ANIMATIONS_ENABLED] ?: true
             val providerId = preferences[PreferencesKeys.SELECTED_PROVIDER] ?: "open_meteo"
+            val autoSync = preferences[PreferencesKeys.AUTO_SYNC_ENABLED] ?: true
             val refreshMins = preferences[PreferencesKeys.AUTO_REFRESH_MINUTES] ?: 30
 
             UserPreferences(
@@ -91,6 +93,7 @@ class UserPreferencesRepository(private val context: Context) {
                 theme = theme,
                 animationsEnabled = animationsEnabled,
                 selectedProviderId = providerId,
+                autoSyncEnabled = autoSync,
                 autoRefreshMinutes = refreshMins
             )
         }
@@ -137,5 +140,13 @@ class UserPreferencesRepository(private val context: Context) {
 
     suspend fun updateLastSelectedCityId(cityId: String) {
         context.dataStore.edit { it[PreferencesKeys.LAST_SELECTED_CITY_ID] = cityId }
+    }
+
+    suspend fun updateAutoSyncEnabled(enabled: Boolean) {
+        context.dataStore.edit { it[PreferencesKeys.AUTO_SYNC_ENABLED] = enabled }
+    }
+
+    suspend fun updateAutoRefreshMinutes(minutes: Int) {
+        context.dataStore.edit { it[PreferencesKeys.AUTO_REFRESH_MINUTES] = minutes }
     }
 }

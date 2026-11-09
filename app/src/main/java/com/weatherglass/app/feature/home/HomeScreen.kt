@@ -15,7 +15,9 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -128,7 +130,9 @@ fun HomeScreen(
                     report = pageReport,
                     preferences = preferences,
                     isLoading = uiState.isLoading && pageReport == null,
+                    isRefreshing = uiState.isRefreshing && pageCity.id == currentCity.id,
                     errorMessage = uiState.errorMessage,
+                    onRefresh = { viewModel.refreshCurrentCity() },
                     onRetry = { viewModel.loadWeatherForCity(pageCity, forceRefresh = true) },
                     onDetailsClick = { onNavigateToDetails(pageCity) }
                 )
@@ -137,13 +141,16 @@ fun HomeScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CityWeatherPageContent(
     city: CityLocation,
     report: WeatherReport?,
     preferences: UserPreferences,
     isLoading: Boolean,
+    isRefreshing: Boolean,
     errorMessage: String?,
+    onRefresh: () -> Unit,
     onRetry: () -> Unit,
     onDetailsClick: () -> Unit
 ) {
@@ -181,64 +188,70 @@ private fun CityWeatherPageContent(
 
     if (report == null) return
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = Modifier.fillMaxSize()
     ) {
-        item {
-            OfflineStatusBanner(
-                lastUpdatedEpochSeconds = report.lastUpdatedEpochSeconds,
-                isCached = report.isCached,
-                onRefresh = onRetry
-            )
-        }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            item {
+                OfflineStatusBanner(
+                    lastUpdatedEpochSeconds = report.lastUpdatedEpochSeconds,
+                    isCached = report.isCached,
+                    onRefresh = onRefresh
+                )
+            }
 
-        item {
-            MainTemperatureSection(
-                current = report.current,
-                temperatureUnit = preferences.temperatureUnit,
-                onDetailsClick = onDetailsClick
-            )
-        }
+            item {
+                MainTemperatureSection(
+                    current = report.current,
+                    temperatureUnit = preferences.temperatureUnit,
+                    onDetailsClick = onDetailsClick
+                )
+            }
 
-        item {
-            HourlyForecastCard(
-                hourlyList = report.hourly,
-                temperatureUnit = preferences.temperatureUnit
-            )
-        }
+            item {
+                HourlyForecastCard(
+                    hourlyList = report.hourly,
+                    temperatureUnit = preferences.temperatureUnit
+                )
+            }
 
-        item {
-            DailyForecastCard(
-                dailyList = report.daily,
-                temperatureUnit = preferences.temperatureUnit,
-                onDayClick = { onDetailsClick() }
-            )
-        }
+            item {
+                DailyForecastCard(
+                    dailyList = report.daily,
+                    temperatureUnit = preferences.temperatureUnit,
+                    onDayClick = { onDetailsClick() }
+                )
+            }
 
-        item {
-            WeatherOverviewGrid(
-                current = report.current,
-                temperatureUnit = preferences.temperatureUnit,
-                windSpeedUnit = preferences.windSpeedUnit,
-                pressureUnit = preferences.pressureUnit,
-                precipitationUnit = preferences.precipitationUnit,
-                visibilityUnit = preferences.visibilityUnit
-            )
-        }
+            item {
+                WeatherOverviewGrid(
+                    current = report.current,
+                    temperatureUnit = preferences.temperatureUnit,
+                    windSpeedUnit = preferences.windSpeedUnit,
+                    pressureUnit = preferences.pressureUnit,
+                    precipitationUnit = preferences.precipitationUnit,
+                    visibilityUnit = preferences.visibilityUnit
+                )
+            }
 
-        item {
-            AirQualityCard(airQuality = report.airQuality)
-        }
+            item {
+                AirQualityCard(airQuality = report.airQuality)
+            }
 
-        item {
-            SunMoonCard(sunMoon = report.sunMoon)
-        }
+            item {
+                SunMoonCard(sunMoon = report.sunMoon)
+            }
 
-        item {
-            Spacer(modifier = Modifier.height(28.dp))
+            item {
+                Spacer(modifier = Modifier.height(28.dp))
+            }
         }
     }
 }

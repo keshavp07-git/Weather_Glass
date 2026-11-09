@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.CloudQueue
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Speed
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.Thermostat
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -254,7 +255,64 @@ fun SettingsScreen(
                     }
                 }
 
-                // Section 3: Weather Data Providers & Developer Diagnostics
+                // Section 3: Background Auto-Sync
+                item {
+                    SettingsCard(
+                        title = "Background Auto-Sync",
+                        icon = Icons.Default.Sync
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Auto-Sync Weather",
+                                    style = WeatherGlassTypography.bodyLarge,
+                                    color = GlassColors.TextPrimary
+                                )
+                                Text(
+                                    text = "Periodically refreshes weather and notification status in the background",
+                                    style = WeatherGlassTypography.labelSmall,
+                                    color = GlassColors.TextTertiary
+                                )
+                            }
+                            Switch(
+                                checked = preferences.autoSyncEnabled,
+                                onCheckedChange = { viewModel.updateAutoSyncEnabled(it) },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = Color.White,
+                                    checkedTrackColor = GlassColors.AccentCyan
+                                )
+                            )
+                        }
+
+                        if (preferences.autoSyncEnabled) {
+                            Spacer(modifier = Modifier.height(14.dp))
+                            UnitRow(
+                                label = "Sync Frequency",
+                                options = listOf(
+                                    "15 min" to (preferences.autoRefreshMinutes == 15),
+                                    "30 min" to (preferences.autoRefreshMinutes == 30),
+                                    "1 hour" to (preferences.autoRefreshMinutes == 60),
+                                    "3 hours" to (preferences.autoRefreshMinutes == 180)
+                                ),
+                                onSelect = { index ->
+                                    val minutes = when (index) {
+                                        0 -> 15
+                                        1 -> 30
+                                        2 -> 60
+                                        else -> 180
+                                    }
+                                    viewModel.updateAutoRefreshMinutes(minutes)
+                                }
+                            )
+                        }
+                    }
+                }
+
+                // Section 4: Weather Data Providers & Developer Diagnostics
                 item {
                     SettingsCard(
                         title = "Meteorological Provider & Diagnostics",

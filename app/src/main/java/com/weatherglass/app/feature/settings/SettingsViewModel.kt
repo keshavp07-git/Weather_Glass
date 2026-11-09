@@ -72,6 +72,14 @@ class SettingsViewModel(
         }
     }
 
+    fun updateAutoSyncEnabled(enabled: Boolean) {
+        viewModelScope.launch { preferencesRepository.updateAutoSyncEnabled(enabled) }
+    }
+
+    fun updateAutoRefreshMinutes(minutes: Int) {
+        viewModelScope.launch { preferencesRepository.updateAutoRefreshMinutes(minutes) }
+    }
+
     class Factory(
         private val preferencesRepository: UserPreferencesRepository,
         private val weatherRepository: WeatherRepository

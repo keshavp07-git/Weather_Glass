@@ -49,7 +49,13 @@ class WeatherRefreshWorker(
     companion object {
         private const val WORK_NAME = "periodic_weather_refresh"
 
-        fun schedule(context: Context, intervalMinutes: Long = 60) {
+        fun schedule(context: Context, intervalMinutes: Long = 30, enabled: Boolean = true) {
+            val workManager = WorkManager.getInstance(context)
+            if (!enabled) {
+                workManager.cancelUniqueWork(WORK_NAME)
+                return
+            }
+
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresBatteryNotLow(true)
@@ -62,9 +68,9 @@ class WeatherRefreshWorker(
                 .setConstraints(constraints)
                 .build()
 
-            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            workManager.enqueueUniquePeriodicWork(
                 WORK_NAME,
-                ExistingPeriodicWorkPolicy.KEEP,
+                ExistingPeriodicWorkPolicy.UPDATE,
                 request
             )
         }
