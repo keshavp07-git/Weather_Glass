@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.weatherglass.app.core.common.UnitConvertersTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-09T13:39:07.102Z" hostname="DESKTOP-Q16HLEI" time="0.021">
+  <properties/>
+  <testcase name="testTemperatureConversion_celsiusToFahrenheit" classname="com.weatherglass.app.core.common.UnitConvertersTest" time="0.007"/>
+  <testcase name="testWindSpeedConversion" classname="com.weatherglass.app.core.common.UnitConvertersTest" time="0.002"/>
+  <testcase name="testTemperatureConversion_celsiusIdentity" classname="com.weatherglass.app.core.common.UnitConvertersTest" time="0.0"/>
+  <testcase name="testPrecipitationConversion" classname="com.weatherglass.app.core.common.UnitConvertersTest" time="0.001"/>
+  <testcase name="testDegreesToCardinal" classname="com.weatherglass.app.core.common.UnitConvertersTest" time="0.0"/>
+  <testcase name="testVisibilityConversion" classname="com.weatherglass.app.core.common.UnitConvertersTest" time="0.0"/>
+  <testcase name="testPressureConversion" classname="com.weatherglass.app.core.common.UnitConvertersTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

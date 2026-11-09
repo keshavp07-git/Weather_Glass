@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Sun Glow Behind -->
+    <path
+        android:pathData="M66,42m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0">
+        <aapt:attr name="android:fillColor" xmlns:aapt="http://schemas.android.com/aapt">
+            <gradient
+                android:startX="50"
+                android:startY="26"
+                android:endX="82"
+                android:endY="58"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FFFFD166" />
+                <item android:offset="1.0" android:color="#FFF59E0B" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Sun Ray Accents -->
+    <path
+        android:strokeWidth="2.5"
+        android:strokeColor="#FFFFD166"
+        android:strokeLineCap="round"
+        android:pathData="M66,20 L66,14 M88,42 L94,42 M82,26 L87,21 M82,58 L87,63 M50,26 L45,21" />
+
+    <!-- Frosted Glass Cloud Base Body -->
+    <path
+        android:pathData="M35,74 h38 a16,16 0 0,0 0,-32 a14,14 0 0,0 -8,-14 a18,18 0 0,0 -30,6 a14,14 0 0,0 0,28 z">
+        <aapt:attr name="android:fillColor" xmlns:aapt="http://schemas.android.com/aapt">
+            <gradient
+                android:startX="30"
+                android:startY="32"
+                android:endX="70"
+                android:endY="74"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#F2FFFFFF" />
+                <item android:offset="0.7" android:color="#D0E2E8F0" />
+                <item android:offset="1.0" android:color="#A0CBD5E1" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Glass Specular Highlight Outline -->
+    <path
+        android:strokeWidth="1.2"
+        android:strokeColor="#80FFFFFF"
+        android:pathData="M35,74 h38 a16,16 0 0,0 0,-32 a14,14 0 0,0 -8,-14 a18,18 0 0,0 -30,6 a14,14 0 0,0 0,28 z" />
+
+    <!-- Droplet Accent -->
+    <path
+        android:pathData="M52,78 C52,78 48,85 48,88 C48,90.2 49.8,92 52,92 C54.2,92 56,90.2 56,88 C56,85 52,78 52,78 Z"
+        android:fillColor="#FF38BDF8" />
+
+</vector>
